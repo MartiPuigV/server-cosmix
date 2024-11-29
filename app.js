@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import fs from 'fs'
 import dotenv from 'dotenv'
+import { removeCarriageReturn } from './methods.js'
 
 dotenv.config()
 
@@ -14,20 +15,33 @@ app.get('/', cors(), (req, res) => {
     res.status(200).send('Alive')
 })
 
-app.post('/', cors(), (req, res) => {
+app.post('/muons-upload', cors(), (req, res) => {
     const { secret, date } = req.body
+
     if (secret != process.env.SECRET) {
         res.status(500).send('Nice try')
     }
-    console.log(req.body)
+
     fs.appendFile('log.txt', date+'\n', (err) => {
         if (err) {
             console.error('Error:', err);
         } else {
-            console.log('File written successfully!');
+            console.log('Recieved muons correctly!');
         }
     });
-    res.status(200).send('Alive')
+    res.status(200).send('Muons enregistrés!')
+})
+
+app.get('/muons/:quantity', cors(), (req, res) => {
+    const quantity = req.params.quantity
+    fs.readFile('log.txt', 'utf-8', (err, data) => {
+        if (err) throw err;
+        let lines = data.split('\n')
+        lines = lines.slice(0, quantity)
+        lines = removeCarriageReturn(lines)
+        console.log(lines)
+    })
+    res.status(200).send('yeah')
 })
 
 app.use((err, req, res, next) => {
