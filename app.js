@@ -15,12 +15,12 @@ app.get('/', cors(), (req, res) => {
 })
 
 app.post('/', cors(), (req, res) => {
-    secret = req.body.get('secret')
+    const { secret, date } = req.body
     if (secret != process.env.SECRET) {
-        res.status(500)
+        res.status(500).send('Nice try')
     }
     console.log(req.body)
-    fs.appendFile('log.txt', req.body.get('date')+'\n', (err) => {
+    fs.appendFile('log.txt', date+'\n', (err) => {
         if (err) {
             console.error('Error:', err);
         } else {
@@ -36,7 +36,7 @@ app.use((err, req, res, next) => {
 })
 
 app.listen(process.env.PORT, () => {
-    console.log('Application deployed and listening on port' + toString(process.env.PORT))
+    console.log('Application deployed and listening on port 8000 most likely')
 })
 
 // node app.js // no realtime update
