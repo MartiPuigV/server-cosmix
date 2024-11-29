@@ -1,6 +1,9 @@
 import express from 'express'
 import cors from 'cors'
 import fs from 'fs'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const app = express()
 
@@ -12,8 +15,12 @@ app.get('/', cors(), (req, res) => {
 })
 
 app.post('/', cors(), (req, res) => {
+    secret = req.body.get('secret')
+    if (secret != process.env.SECRET) {
+        res.status(500)
+    }
     console.log(req.body)
-    fs.appendFile('log.txt', JSON.stringify(req.body)+'\n', (err) => {
+    fs.appendFile('log.txt', req.body.get('date')+'\n', (err) => {
         if (err) {
             console.error('Error:', err);
         } else {
@@ -28,8 +35,8 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!')
 })
 
-app.listen(8000, () => {
-    console.log('Application deployed and listening on port 8000')
+app.listen(process.env.PORT, () => {
+    console.log('Application deployed and listening on port' + toString(process.env.PORT))
 })
 
 // node app.js // no realtime update
