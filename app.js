@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import fs from 'fs'
 
 const app = express()
 
@@ -12,6 +13,13 @@ app.get('/', cors(), (req, res) => {
 
 app.post('/', cors(), (req, res) => {
     console.log(req.body)
+    fs.appendFile('log.txt', JSON.stringify(req.body)+'\n', (err) => {
+        if (err) {
+            console.error('Error:', err);
+        } else {
+            console.log('File written successfully!');
+        }
+    });
     res.status(200).send('Alive')
 })
 
