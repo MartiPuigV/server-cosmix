@@ -35,13 +35,14 @@ app.post('/muons-upload', cors(), (req, res) => {
 })
 
 app.get('/muons/:quantity', cors(), (req, res) => {
-    const quantity = req.params.quantity
+    const quantity = req.params.quantity;
     fs.readFile('log.txt', 'utf-8', (err, data) => {
         if (err) throw err;
-        let lines = data.split('\n')
+        let lines = data.split('\n');
         lines = lines.slice(-quantity-1, -1)
-        lines = removeCarriageReturn(lines)
-        res.status(200).send(lines)
+        lines.reverse();
+        lines = removeCarriageReturn(lines);
+        res.status(200).send(lines);
     })
 })
 
