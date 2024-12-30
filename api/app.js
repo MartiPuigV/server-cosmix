@@ -1,8 +1,7 @@
 import express from 'express'
 import cors from 'cors'
-import fs from 'fs'
 import dotenv from 'dotenv'
-import { removeCarriageReturn } from './methods.js'
+import { addDate, retrieveUploads } from './methods.js'
 
 dotenv.config()
 
@@ -15,7 +14,7 @@ app.get('/', cors(), (req, res) => {
     res.status(200).send('Alive')
 })
 
-app.post('/muons-upload', cors(), (req, res) => {
+app.post('/muons-upload', cors(), async (req, res) => {
     const { secret, date } = req.body
 
     if (secret != process.env.SECRET) {
@@ -23,27 +22,21 @@ app.post('/muons-upload', cors(), (req, res) => {
         return;
     }
 
-    fs.appendFile('log.txt', date+'\n', (err) => {
-        if (err) {
-            console.error('Error:', err);
-        } else {
-            console.log('Recieved muons correctly!');
-        }
-    });
+    await addDate(date);
+    console.log('Recieved muons correctly!');
 
     res.status(200).send('Muons enregistrés!');
 })
 
-app.get('/muons/:quantity', cors(), (req, res) => {
+app.get('/muons/:quantity', cors(), async (req, res) => {
     const quantity = req.params.quantity;
-    fs.readFile('log.txt', 'utf-8', (err, data) => {
-        if (err) throw err;
-        let lines = data.split('\n');
-        lines = lines.slice(-quantity-1, -1)
-        lines.reverse();
-        lines = removeCarriageReturn(lines);
+    try {
+        const lines = await retrieveUploads(quantity);
         res.status(200).send(lines);
-    })
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error reading file');
+    }
 })
 
 app.use((err, req, res, next) => {
