@@ -19,7 +19,8 @@ app.post('/muons-upload', cors(), (req, res) => {
     const { secret, date } = req.body
 
     if (secret != process.env.SECRET) {
-        res.status(500).send('Nice try')
+        res.status(500).send('Nice try');
+        return;
     }
 
     fs.appendFile('log.txt', date+'\n', (err) => {
@@ -29,7 +30,8 @@ app.post('/muons-upload', cors(), (req, res) => {
             console.log('Recieved muons correctly!');
         }
     });
-    res.status(200).send('Muons enregistrés!')
+
+    res.status(200).send('Muons enregistrés!');
 })
 
 app.get('/muons/:quantity', cors(), (req, res) => {
