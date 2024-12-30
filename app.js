@@ -39,9 +39,8 @@ app.get('/muons/:quantity', cors(), (req, res) => {
         let lines = data.split('\n')
         lines = lines.slice(-quantity-1, -1)
         lines = removeCarriageReturn(lines)
-        console.log(lines)
+        res.status(200).send(lines)
     })
-    res.status(200).send('yeah')
 })
 
 app.use((err, req, res, next) => {
@@ -50,7 +49,7 @@ app.use((err, req, res, next) => {
 })
 
 app.listen(process.env.PORT, () => {
-    console.log('Application deployed and listening on port 8000 most likely')
+    console.log('Application deployed with utmost success')
 })
 
 // node app.js // no realtime update
