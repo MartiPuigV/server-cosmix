@@ -16,7 +16,7 @@ app.get('/', cors(), (req, res) => {
 
 app.get('/epoch', cors(), (req, res) => {
     const epoch = Date.now()/1000;
-    res.sendStatus(200).send(String(epoch));
+    res.status(200).send({"epoch": epoch});
 })
 
 app.post('/muons-upload', cors(), async (req, res) => {
