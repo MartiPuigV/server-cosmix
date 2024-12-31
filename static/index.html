@@ -3,8 +3,25 @@
 <head>
     <title>Muons Dashboard</title>
     <link rel="icon" href="resources/favicon.ico">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-    
+    <div class="master-wrap">
+        <div class="header">
+            <h1>Muons Dashboard</h1>
+        </div>
+        <div class="dashboard-wrap">
+            <div class="status-wrap">
+                <h1>Status : </h1>
+                <h1 id="status-text"></h1>
+            </div>
+            <div class="data-wrap" id="data-wrap-js">
+                <h1>Overview</h1>
+                <div class="sep"></div>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="js/index.js">
+    </script>
 </body>
 </html>
