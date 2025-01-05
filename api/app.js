@@ -28,7 +28,7 @@ app.get('/dev/log.txt', cors(), (req, res) => {
 
 app.get('/epoch', cors(), (req, res) => {
     const epoch = Date.now()/1000;
-    res.status(200).send({"epoch": epoch});
+    res.status(200).send(String(epoch));
 })
 
 app.post('/muons-upload', cors(), async (req, res) => {
