@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import path from 'path'
 import { addDate, retrieveUploads } from './methods.js'
 
 dotenv.config()
@@ -14,6 +15,17 @@ app.get('/', cors(), (req, res) => {
     res.status(200).send('Alive')
 })
 
+app.get('/dev/log.txt', cors(), (req, res) => {
+    const API_KEY = req.query.API_KEY;
+    if (!API_KEY || API_KEY != process.env.SECRET) {
+        res.status(401).send('Unauthorized::Nice try');
+        return;
+    } else {
+        res.status(200).sendFile(path.resolve('./log.txt'));
+        return;
+    }
+})
+
 app.get('/epoch', cors(), (req, res) => {
     const epoch = Date.now()/1000;
     res.status(200).send({"epoch": epoch});
@@ -23,7 +35,7 @@ app.post('/muons-upload', cors(), async (req, res) => {
     const { secret, date } = req.body
 
     if (secret != process.env.SECRET) {
-        res.status(500).send('Nice try');
+        res.status(401).send('Unauthorized::Nice try');
         return;
     }
 
