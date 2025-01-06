@@ -1,8 +1,5 @@
 async function getUploads(amount) {
     const url = 'http://localhost:8000/muons/';
-
-    console.log(url + String(amount));
-
     const response = await fetch(url + String(amount));
 
     if (!response.ok) {
@@ -13,20 +10,20 @@ async function getUploads(amount) {
     return data;
 }
 
-
 async function setup() {
-    const data = await getUploads(10);
+    let amount = 10;
+    const data = await getUploads(amount);
     const div = document.getElementById('data-wrap-js')
-    data.forEach(line => {
+    data.forEach(epoch_sec => {
+        const date = new Date(epoch_sec*1000);
         const wrap = document.createElement('div')
         wrap.className = 'data'
         const ptag = document.createElement('p')
-        ptag.innerText = 'Ping at ' + line;
+        ptag.innerText = 'Coincidence : ' + date.toUTCString();
         wrap.appendChild(ptag);
         div.appendChild(wrap)
     });
     const last = parseInt(data.at(-1));
-    console.log(last);
     const status = validateStatus(300, last);
     updateStatus(status);
 }
@@ -44,7 +41,6 @@ function updateStatus(status) {
 
 function validateStatus(timeout, time) {
     const currentTime = Date.now()/1000;
-    console.log(currentTime-time);
     return currentTime-time < timeout;
 }
 

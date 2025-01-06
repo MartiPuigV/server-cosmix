@@ -72,3 +72,9 @@ p {
     background: lime;
     padding: 12px;
 }
+
+.link-foot {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
