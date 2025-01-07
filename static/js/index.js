@@ -1,5 +1,5 @@
 async function getUploads(amount) {
-    const url = 'http://localhost:8000/muons/';
+    const url = 'https://server-cosmix.onrender.com/muons/';
     const response = await fetch(url + String(amount));
 
     if (!response.ok) {
