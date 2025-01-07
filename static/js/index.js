@@ -23,7 +23,7 @@ async function setup() {
         wrap.appendChild(ptag);
         div.appendChild(wrap)
     });
-    const last = parseInt(data.at(-1));
+    const last = parseInt(data.at(-1))+3600;
     const status = validateStatus(300, last);
     updateStatus(status);
 }
