@@ -11,7 +11,7 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-app.get('/', cors(), (req, res) => {
+app.get('/', cors(), (_, res) => {
     res.status(200).send('Alive')
 })
 
@@ -26,7 +26,7 @@ app.get('/dev/log.txt', cors(), (req, res) => {
     }
 })
 
-app.get('/epoch', cors(), (req, res) => {
+app.get('/epoch', cors(), (_, res) => {
     const epoch = Date.now()/1000;
     res.status(200).send(String(epoch));
 })
@@ -56,7 +56,7 @@ app.get('/muons/:quantity', cors(), async (req, res) => {
     }
 })
 
-app.use((err, req, res, next) => {
+app.use((err, _, res, _) => {
     console.error(err.stack)
     res.status(500).send('Something broke!')
 })
@@ -65,5 +65,4 @@ app.listen(process.env.PORT, () => {
     console.log('Application deployed with utmost success')
 })
 
-// node app.js // no realtime update
-// npm run dev // includes real-time update
+// node app.js
