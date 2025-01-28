@@ -11,6 +11,7 @@ async function getUploads(amount) {
 }
 
 async function setup() {
+    // Sets up the display of the latest 'amount' values
     let amount = 10;
     const data = await getUploads(amount);
     const div = document.getElementById('data-wrap-js')
@@ -29,6 +30,7 @@ async function setup() {
 }
 
 function updateStatus(status) {
+    // Update the status of the server
     const statustag = document.getElementById('status-text');
     if (status) {
         statustag.innerText = 'Alive';
@@ -40,8 +42,9 @@ function updateStatus(status) {
 }
 
 function validateStatus(timeout, time) {
+    // Assert if the server is down or not at function runtime
     const currentTime = Date.now()/1000;
     return currentTime-time < timeout;
 }
 
-setup();
+setup(); // Call setup on page load

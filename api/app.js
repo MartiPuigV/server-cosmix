@@ -16,6 +16,7 @@ app.get('/', cors(), (_, res) => {
 })
 
 app.get('/dev/log.txt', cors(), (req, res) => {
+    // Retrieve the log file if API key is valid
     const API_KEY = req.query.API_KEY;
     if (!API_KEY || API_KEY != process.env.SECRET) {
         res.status(401).send('Unauthorized::Nice try');
@@ -27,11 +28,13 @@ app.get('/dev/log.txt', cors(), (req, res) => {
 })
 
 app.get('/epoch', cors(), (_, res) => {
+    // Retrieve epoch in seconds
     const epoch = Date.now()/1000;
     res.status(200).send(String(epoch));
 })
 
 app.post('/muons-upload', cors(), async (req, res) => {
+    // Upload a new value if API key is valid
     const { secret, date } = req.body
 
     if (secret != process.env.SECRET) {
@@ -46,6 +49,7 @@ app.post('/muons-upload', cors(), async (req, res) => {
 })
 
 app.get('/muons/:quantity', cors(), async (req, res) => {
+    // Retrieve the latest 'n' coincidences
     const quantity = req.params.quantity;
     try {
         const lines = await retrieveUploads(quantity);
@@ -65,4 +69,4 @@ app.listen(process.env.PORT, () => {
     console.log('Application deployed with utmost success')
 })
 
-// node app.js
+// Run command : node app.js

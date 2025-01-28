@@ -2,8 +2,6 @@
 
 This server's function is to act as an API endpoint for a homemade muon detector, built from an arduino.
 
-## Architecture
-
 ## 1. API
 
 The API has 4 main functions :
@@ -31,6 +29,6 @@ The latest coincidences can also be viewed in the form of a date. This dashboard
 
 You can find it over at https://server-cosmix-ksxy.onrender.com/
 
-## Currently in development
+# Currently in development
 
 I built this as part of a school project. Please report any bugs or vulnerability issues via the issues tab or a pull request.
