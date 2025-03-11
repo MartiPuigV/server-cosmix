@@ -3,13 +3,15 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { addDate, retrieveUploads, getLastDays } from './methods.js'
+import { addDate, retrieveUploads, getLastDays, itom, backup_monthly } from './methods.js'
 
 dotenv.config()
 
 const app = express()
 const router = express.Router()
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+const prev_date = new Date()
 
 app.use(express.json())
 app.use(cors())
@@ -20,15 +22,7 @@ app.get('/', cors(), (_, res) => {
 })
 
 app.get('/dev/log.txt', cors(), (req, res) => {
-    // Retrieve the log file if API key is valid
-    const API_KEY = req.query.API_KEY;
-    if (!API_KEY || API_KEY != process.env.SECRET) {
-        res.status(401).send('Unauthorized::Nice try');
-        return;
-    } else {
-        res.status(200).sendFile(path.resolve('./log.txt'));
-        return;
-    }
+    res.status(200).sendFile(path.resolve('./log.txt'));
 })
 
 app.get('/epoch', cors(), (_, res) => {
@@ -46,8 +40,16 @@ app.post('/muons-upload', cors(), async (req, res) => {
         return;
     }
 
+    const month = new Date(date*1000);
+
+    if (month.getMonth() != prev_date.getMonth()) {
+        console.log('New month, we need to change log files');
+        let filename = itom(prev_date.getMonth());
+        filename += `_${prev_date.getFullYear()}.txt`
+        await backup_monthly(filename);
+    }
+
     await addDate(date);
-    console.log('Recieved muons correctly!');
 
     res.status(200).send('Muons enregistrés!');
 })
@@ -74,11 +76,19 @@ app.get('/days/:days', cors(), async (req, res) => {
         console.error(error);
         res.status(500).send('Error reading file');
     }
+})
 
+app.get('/archives/:archive', cors(), (req, res) => {
+    const archive = req.params.archive;
+    const filepath = path.join(__dirname, archive)
 })
 
 router.get('/dashboard', cors(), function(req, res) {
     res.sendFile(path.resolve('index.html'));
+})
+
+router.get('/data', cors(), function(req, res) {
+    res.sendFile(path.resolve('data.html'));
 })
 
 app.use((err, req, res, _) => {

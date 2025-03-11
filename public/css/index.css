@@ -28,12 +28,14 @@ p {
 }
 
 .header {
+    display: flex;
+    gap: 18px;
     border-radius: 6px;
-    padding: 10px;
     grid-area: 1 / 2 / 2 / 3;
     justify-self: center;
     width: fit-content;
     margin: 0px;
+    align-items: center;
 }
 
 .dashboard-wrap {
@@ -79,4 +81,7 @@ p {
     display: flex;
     flex-direction: row;
     gap: 12px;
+    align-self: center;
+    height: min-content;
+    font-size: 16px;
 }

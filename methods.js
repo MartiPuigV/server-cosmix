@@ -28,11 +28,8 @@ export async function retrieveUploads(amount) {
 
 export async function getLastDays(days) {
     const dates = await retrieveUploads(0);
-    console.log(dates);
     const today = dates[0];
-    console.log(today);
     const limit = today-(days*24*3600); // Transform days to seconds
-    console.log(limit);
     let result = [];
     dates.forEach(day => {
         if (day > limit) {
@@ -42,4 +39,28 @@ export async function getLastDays(days) {
         }
     });
     return result;
+}
+
+export function itom(month) {
+    // Integer to Month from index
+    if (!(0 <= month <= 11)) {
+        return `undef_month_{${month}}`
+        // Necessary return, even if wrong value
+    }
+
+    return ["january", "february", "march", "april",
+        "may", "june", "july", "august", "september",
+        "october", "november", "december"
+    ].at(month);
+}
+
+export async function backup_monthly(filename) {
+    try {
+        await fs.copyFile("log.txt", "archives/"+filename);
+        console.log("Successfull monthly backup for file : "+filename);
+        await fs.writeFile("");
+        console.log("Successfully flushed main log file");
+    } catch (err) {
+        console.error("Error copying monthly backup file : "+filename, err);
+    }
 }

@@ -18,16 +18,22 @@ The API has a /muons-upload endpoint used by the Arduino to make a POST request 
 
 The API's /muons/:quantity dynamic endpoint allows a user to fetch the latest _n_ uploaded epochs, replacing :quantity by the number of epochs needed. Eg. : fetch /muons/5 gets the latest 5 coincidences uploaded onto the server.
 
-# Retrieve the log file (requires API dev key)
+A more convenient endpoint is the /days/:days, acting just as the /muons one, but retrieves the muons detected in the past _n_ days.
 
-The log file can be retrieved via /dev/log.txt, given a correct API key.
+# Retrieve the log file
+
+The log file can be retrieved via /dev/log.txt. 
+
+**WIP** 
+It resets each month. Each monthly log file can also be retrieved as soon as i implement it.
+**WIP**
 
 ## 2. Dashboard site
 
-A simple dashboard-like static site can be found under /static. It shows the current state of the detector, assuming 5 minutes of unrecorded coincidence means that it is down. If the detector's last sent coincidence is more than 5 minutes ago, it is considered down. 
+A simple dashboard-like static site. It shows the current state of the detector, assuming 5 minutes of unrecorded coincidence means that it is down. If the detector's last sent coincidence is more than 5 minutes ago, it is considered down. 
 The latest coincidences can also be viewed in the form of a date. This dashboard is accessible by anyone, as it allows no control over the server.
 
-You can find it over at https://server-cosmix-ksxy.onrender.com/
+You can find it over at https://server-cosmix.onrender.com/dashboard
 
 # Currently in development
 
