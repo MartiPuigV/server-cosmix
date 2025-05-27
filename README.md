@@ -22,19 +22,22 @@ A more convenient endpoint is the /days/:days, acting just as the /muons one, bu
 
 # Retrieve the log file
 
-The log file can be retrieved via /dev/log.txt. 
-
-**WIP** 
-It resets each month. Each monthly log file can also be retrieved as soon as i implement it.
-**WIP**
+The log file can be retrieved via /dev/log.txt.
 
 ## 2. Dashboard site
 
-A simple dashboard-like static site. It shows the current state of the detector, assuming 5 minutes of unrecorded coincidence means that it is down. If the detector's last sent coincidence is more than 5 minutes ago, it is considered down. 
+A simple dashboard-like static site. It shows the current state of the detector, assuming 5 minutes of unrecorded coincidence means that it is down.
+
 The latest coincidences can also be viewed in the form of a date. This dashboard is accessible by anyone, as it allows no control over the server.
 
-You can find it over at https://server-cosmix.onrender.com/dashboard
+You can find it over at <https://server-cosmix.onrender.com/dashboard>
 
 # Currently in development
+
+An archive functionality for older log files (> 1 month) is in development. It will be open to anyone.
+
+This project is still under developpement. The website may be down or unfunctional.
+
+I am currently facing some unfortnuate problems with the Arduino script. The source code for it will be published as soon as possible.
 
 I built this as part of a school project. Please report any bugs or vulnerability issues via the issues tab or a pull request.
